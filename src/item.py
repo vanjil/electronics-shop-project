@@ -1,5 +1,5 @@
 # item.py
-class item:
+class Item:
     """
     Класс для представления товара в магазине.
     """
@@ -17,7 +17,7 @@ class item:
         self.name = name
         self.price = price
         self.quantity = quantity
-        item.all.append(self)
+        Item.all.append(self)
 
     def calculate_total_price(self) -> float:
         """
@@ -31,7 +31,7 @@ class item:
         """
         Применяет установленную скидку для конкретного товара.
         """
-        self.price *= item.pay_rate
+        self.price *= Item.pay_rate
 
     def __repr__(self):
         return f"item(name='{self.name}', price={self.price}, quantity={self.quantity})"
