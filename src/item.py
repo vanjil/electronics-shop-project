@@ -1,40 +1,51 @@
-# item.py
+import csv
+import os
+
 class Item:
-    """
-    Класс для представления товара в магазине.
-    """
     pay_rate = 1.0
     all = []
 
     def __init__(self, name: str, price: float, quantity: int) -> None:
-        """
-        Создание экземпляра класса Item.
-
-        :param name: Название товара.
-        :param price: Цена за единицу товара.
-        :param quantity: Количество товара в магазине.
-        """
-        self.name = name
+        self._name = name  # Приватный атрибут name
         self.price = price
         self.quantity = quantity
         Item.all.append(self)
 
-    def calculate_total_price(self) -> float:
-        """
-        Рассчитывает общую стоимость конкретного товара в магазине.
+    @property
+    def name(self):
+        return self._name
 
-        :return: Общая стоимость товара.
-        """
+    @name.setter
+    def name(self, value):
+        if len(value) <= 10:
+            self._name = value
+        else:
+            print("Exception: Длина наименования товара превышает 10 символов.")
+            self._name = value[:10]
+
+    @classmethod
+    def instantiate_from_csv(cls, file_name: str) -> object:
+        # Получаем абсолютный путь к файлу относительно текущего каталога
+        file_path = os.path.join(os.path.dirname(__file__), '..', file_name)
+
+        with open(file_path, 'r', encoding='utf-16') as file:
+            reader = csv.DictReader(file)
+            for row in reader:
+                item = cls(row['name'], float(row['price']), int(row['quantity']))
+                cls.all.append(item)
+
+    @staticmethod
+    def string_to_number(value: str):
+        return int(float(value))
+
+    def calculate_total_price(self) -> float:
         return self.price * self.quantity
 
     def apply_discount(self) -> None:
-        """
-        Применяет установленную скидку для конкретного товара.
-        """
         self.price *= Item.pay_rate
 
     def __repr__(self):
-        return f"item(name='{self.name}', price={self.price}, quantity={self.quantity})"
+        return f"Item(name='{self.name}', price={self.price}, quantity={self.quantity})"
 
     def __str__(self):
         return f"{self.name} - ${self.price} (Quantity: {self.quantity})"
