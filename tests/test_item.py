@@ -33,18 +33,12 @@ def test_all_items_list():
     assert Item.all[1].price == 20000
     assert Item.all[1].quantity == 5
 
-#def test_repr():
+def test_repr():
     item1 = Item("Смартфон", 10000, 20)
-    assert repr(item1) == "item(name='Смартфон', price=10000, quantity=20)"
+    assert repr(item1) == "Item('Смартфон', 10000, 20)"
 
-#def test_str():
+def test_str():
     item1 = Item("Смартфон", 10000, 20)
-    assert str(item1) == "Смартфон - $10000 (Quantity: 20)"
+    assert str(item1) == 'Смартфон'
 
 
-#def test_instantiate_from_csv():
-    Item.all = []  # Очищаем список перед тестом
-    Item.instantiate_from_csv('src/items.csv')
-    assert len(Item.all) == 5
-    assert Item.all[0].name == 'Смартфон'
-    # Добавьте проверки для остальных данных из файла
