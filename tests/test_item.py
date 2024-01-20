@@ -1,5 +1,5 @@
 # tests/test_item.py
-from src.item import Item  # Исправил имя класса на Item
+from src.item import Item
 
 def test_calculate_total_price():
     item1 = Item("Смартфон", 10000, 20)
@@ -18,7 +18,6 @@ def test_apply_discount():
     assert item2.price == 20000
 
 def test_all_items_list():
-    # Очищаем список перед каждым тестом
     Item.all = []  # Исправил имя класса на Item
 
     item1 = Item("Смартфон", 10000, 20)
