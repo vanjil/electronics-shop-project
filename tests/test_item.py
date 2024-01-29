@@ -1,5 +1,37 @@
-# tests/test_item.py
+import os
+import tempfile
 from src.item import Item
+
+def test_instantiate_from_csv():
+
+    csv_data = "name,price,quantity\nProduct1,10.0,5\nProduct2,20.0,3"
+    with tempfile.NamedTemporaryFile(mode='w+', suffix='.csv', delete=False, encoding='utf-16') as csv_file:
+        csv_file.write(csv_data)
+        csv_file_path = csv_file.name
+
+    try:
+        Item.clear_all()
+
+        # Вызываем метод instantiate_from_csv
+        Item.instantiate_from_csv(csv_file_path)
+
+        # Проверяем, что в списке all созданы правильные объекты Item
+        assert len(Item.all) == 2
+
+        item1 = Item.all[0]
+        assert item1.name == "Product1"
+        assert item1.price == 10.0
+        assert item1.quantity == 5
+
+        item2 = Item.all[1]
+        assert item2.name == "Product2"
+        assert item2.price == 20.0
+        assert item2.quantity == 3
+
+    finally:
+        # Удаляем временный CSV-файл
+        os.remove(csv_file_path)
+
 
 def test_calculate_total_price():
     item1 = Item("Смартфон", 10000, 20)

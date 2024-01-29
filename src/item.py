@@ -6,7 +6,7 @@ class Item:
     all = []
 
     def __init__(self, name: str, price: float, quantity: int) -> None:
-        self._name = name  # Приватный атрибут name
+        self._name = name
         self.price = price
         self.quantity = quantity
         Item.all.append(self)
@@ -24,8 +24,7 @@ class Item:
             self._name = value[:10]
 
     @classmethod
-    def instantiate_from_csv(cls, file_name: str) -> object:
-        # Получаем абсолютный путь к файлу относительно текущего каталога
+    def instantiate_from_csv(cls, file_name: str) -> None:
         file_path = os.path.join(os.path.dirname(__file__), '..', file_name)
 
         with open(file_path, 'r', encoding='utf-16') as file:
@@ -49,3 +48,12 @@ class Item:
 
     def __str__(self):
         return self.name
+
+    def __add__(self, other):
+        if isinstance(other, Item):
+
+            return Item(self.name, self.price, self.quantity + other.quantity)
+        else:
+            raise ValueError("Неподдерживаемый тип операнда для +: {}".format(type(other)))
+
+
