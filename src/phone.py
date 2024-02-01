@@ -22,13 +22,6 @@ class Phone(Item):
     def __str__(self):
         return self.name
 
-    def __add__(self, other):
-        if isinstance(other, Phone):
-            return Phone(self.name, self.price, self.quantity + other.quantity, self.number_of_sim)
-        elif isinstance(other, Item):
-            return Item(self.name, self.price, self.quantity + other.quantity)
-        else:
-            raise ValueError("Cannot add Phone with non-Phone or Item object")
 
     def __radd__(self, other):
         if isinstance(other, Item):

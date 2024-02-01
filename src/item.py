@@ -51,9 +51,7 @@ class Item:
 
     def __add__(self, other):
         if isinstance(other, Item):
-
+            # Создаем новый экземпляр Item с учетом суммы количеств
             return Item(self.name, self.price, self.quantity + other.quantity)
         else:
             raise ValueError("Неподдерживаемый тип операнда для +: {}".format(type(other)))
-
-
