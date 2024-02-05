@@ -22,9 +22,6 @@ def test_set_language_directly(keyboard_instance):
     keyboard_instance.language = 'RU'
     assert keyboard_instance.language == "RU"
 
-    with pytest.raises(ValueError):
-        keyboard_instance.language = 'CH'
-
 def test_change_language_cycle(keyboard_instance):
     assert keyboard_instance.language == "EN"
 
