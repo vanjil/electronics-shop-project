@@ -1,33 +1,17 @@
-class LanguageMixin:
-    def __init__(self):
-        self._current_language = 'EN'
+from src.keyboard import Keyboard
 
-    @property
-    def language(self):
-        return self._current_language
+if __name__ == '__main__':
+    kb = Keyboard('Dark Project KD87A', 9600, 5)
+    assert str(kb) == "Dark Project KD87A"
 
-    @language.setter
-    def language(self, new_language):
-        if new_language in ['EN', 'RU']:
-            self._current_language = new_language
-        else:
-            raise ValueError("Недопустимый язык. Поддерживаемые значения: EN, RU")
+    assert str(kb.language) == "EN"
 
-    def change_lang(self):
-        if self._current_language == 'EN':
-            self._current_language = 'RU'
-        else:
-            self._current_language = 'EN'
+    kb.change_lang()
+    assert str(kb.language) == "RU"
 
-class MyClass(LanguageMixin):
-    def __init__(self):
-        super().__init__()
+    # Сделали EN -> RU -> EN
+    kb.change_lang()
+    assert str(kb.language) == "EN"
 
-# Пример использования
-obj = MyClass()
-print(obj.language)  # Вывод: 'EN'
-
-obj.change_lang()
-print(obj.language)  # Вывод: 'RU'
-
-
+    kb.language = 'CH'
+    # AttributeError: property 'language' of 'Keyboard' object has no setter
