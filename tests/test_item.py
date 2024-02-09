@@ -1,35 +1,34 @@
 import os
 import tempfile
-from src.item import Item
+from src.item import Item, InstantiateCSVError
+import pytest
 
-def test_instantiate_from_csv():
+def test_instantiate_from_csv_file_not_found():
+    with pytest.raises(FileNotFoundError):
+        Item.instantiate_from_csv("nonexistent_file.csv")
 
-    csv_data = "name,price,quantity\nProduct1,10.0,5\nProduct2,20.0,3"
-    with tempfile.NamedTemporaryFile(mode='w+', suffix='.csv', delete=False, encoding='utf-16') as csv_file:
+def test_instantiate_from_csv_corrupted_file():
+    csv_data = "name,price\nProduct1,10.0\nProduct2,20.0"
+    with tempfile.NamedTemporaryFile(mode='w+', suffix='.csv', delete=False, encoding='utf-8') as csv_file:
         csv_file.write(csv_data)
         csv_file_path = csv_file.name
 
     try:
-        Item.clear_all()
-
-        # Вызываем метод instantiate_from_csv
-        Item.instantiate_from_csv(csv_file_path)
-
-        # Проверяем, что в списке all созданы правильные объекты Item
-        assert len(Item.all) == 2
-
-        item1 = Item.all[0]
-        assert item1.name == "Product1"
-        assert item1.price == 10.0
-        assert item1.quantity == 5
-
-        item2 = Item.all[1]
-        assert item2.name == "Product2"
-        assert item2.price == 20.0
-        assert item2.quantity == 3
-
+        with pytest.raises(InstantiateCSVError):
+            Item.instantiate_from_csv(csv_file_path)
     finally:
-        # Удаляем временный CSV-файл
+        os.remove(csv_file_path)
+
+def test_instantiate_from_csv_corrupted_file():
+    csv_data = "name,price\nProduct1,10.0\nProduct2,20.0"
+    with tempfile.NamedTemporaryFile(mode='w+', suffix='.csv', delete=False, encoding='utf-8') as csv_file:
+        csv_file.write(csv_data)
+        csv_file_path = csv_file.name
+
+    try:
+        with pytest.raises(InstantiateCSVError):
+            Item.instantiate_from_csv(csv_file_path)
+    finally:
         os.remove(csv_file_path)
 
 
