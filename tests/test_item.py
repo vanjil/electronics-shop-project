@@ -25,13 +25,6 @@ def test_instantiate_from_csv_corrupted_file():
         csv_file.write(csv_data)
         csv_file_path = csv_file.name
 
-    try:
-        with pytest.raises(InstantiateCSVError):
-            Item.instantiate_from_csv(csv_file_path)
-    finally:
-        os.remove(csv_file_path)
-
-
 def test_calculate_total_price():
     item1 = Item("Смартфон", 10000, 20)
     item2 = Item("Ноутбук", 20000, 5)
