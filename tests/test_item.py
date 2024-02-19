@@ -1,5 +1,5 @@
-import pytest
 from src.item import Item, InstantiateCSVError
+import pytest
 
 
 def test_instantiate_from_csv_with_correct_file():
@@ -14,10 +14,9 @@ def test_instantiate_from_csv_with_missing_file(capfd):
     """
     Тестирует метод instantiate_from_csv() при отсутствии CSV-файла.
     """
-    with pytest.raises(FileNotFoundError):
-        with capfd.disabled():  # Отключаем захват вывода, чтобы избежать мусора в тестовом выводе
-            Item.instantiate_from_csv()
-
+    Item.instantiate_from_csv()
+    out, _ = capfd.readouterr()
+    assert "Отсутствует файл item.csv" in out
 
 
 def test_instantiate_from_csv_with_correct_file(capfd, tmp_path):
@@ -37,5 +36,4 @@ def test_calculate_total_price():
     """
     item = Item("Test", 10.0, 5)
     assert item.calculate_total_price() == None
-
 
