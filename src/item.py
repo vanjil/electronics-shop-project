@@ -16,6 +16,17 @@ class Item:
         :param quantity: Количество товара в магазине.
         """
 
+        if not isinstance(name, str):
+            raise TypeError("name must be a str")
+        if not isinstance(price, float):
+            raise TypeError("price must be a float")
+        if not isinstance(quantity, int):
+            raise TypeError("quantity must be an int")
+
+        self.name = name
+        self.price = price
+        self.quantity = quantity
+
     def calculate_total_price(self) -> float:
         """
         Рассчитывает общую стоимость конкретного товара в магазине.
@@ -51,3 +62,4 @@ class InstantiateCSVError(Exception):
     Исключение, возникающее при повреждении CSV-файла с данными о товарах.
     """
     pass
+
